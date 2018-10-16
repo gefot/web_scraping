@@ -26,8 +26,13 @@ except Exception as ex:
 # Read values from Excel workbook
 try:
     workbook = xlrd.open_workbook(filename)
-
     worksheet = workbook.sheet_by_index(0)
+
+    rows = worksheet.nrows
+    for row in range(rows):
+        first_col,second_col = worksheet.row_values(row)
+        if first_col != '':
+            print(first_col,'   ',second_col)
 
 
 except Exception as ex:
