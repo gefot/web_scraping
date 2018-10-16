@@ -1,17 +1,34 @@
 import random
 from xlsxwriter import Workbook
+import xlrd
 
-workbook = Workbook('first_file.xlsx')
+# Declarations
+filename = 'first_file.xlsx'
 
-print("Starting")
+# Write values to Excel workbook
+try:
+    workbook = Workbook(filename)
 
-worksheet = workbook.add_worksheet()
+    print("Starting write")
+    worksheet = workbook.add_worksheet()
 
-for row in range(20):
-    a = random.randint(1, 20)
-    worksheet.write(row, 0, 'Element')
-    worksheet.write(row, 1, a)
+    for row in range(20):
+        a = random.randint(1, 20)
+        worksheet.write(row, 0, 'Element')
+        worksheet.write(row, 1, a)
+
+    workbook.close()
+    print("Ending write")
+
+except Exception as ex:
+    print(ex)
+
+# Read values from Excel workbook
+try:
+    workbook = xlrd.open_workbook(filename)
+
+    worksheet = workbook.sheet_by_index(0)
 
 
-
-workbook.close()
+except Exception as ex:
+    print(ex)
