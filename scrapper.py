@@ -4,15 +4,15 @@ from fake_useragent import UserAgent
 
 ua = UserAgent()
 header = {'user-agent':ua.chrome}
-
+#print(ua.chrome)
 url = "http://www.google.com"
-url_response = requests.get(url,headers=header)
-print(url_response.status_code)
-print(url_response.text,'\n\n\n')
+url_response = requests.get(url,headers=header,timeout=3)
+#print(url_response.status_code)
+print(url_response.content,'\n\n\n')
 #print(url_response.headers)
 
-for key,value in url_response.headers.items():
-    print(key, ' --> ',value)
+#for key,value in url_response.headers.items():
+#    print(key, ' --> ',value)
 #data = url_response.text
 #data_tagged = BeautifulSoup(data,'html.parser')
 #data_list = data_tagged.find_all()
