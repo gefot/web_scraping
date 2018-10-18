@@ -2,33 +2,26 @@ from bs4 import BeautifulSoup
 import requests
 from fake_useragent import UserAgent
 
-ua = UserAgent()
-header = {'user-agent':ua.chrome}
-#print(ua.chrome)
-url = "http://www.google.com"
-url_response = requests.get(url,headers=header,timeout=3)
-#print(url_response.status_code)
-print(url_response.content,'\n\n\n')
-#print(url_response.headers)
+def read_file(filename):
+    with open(filename,'r') as f:
+        data = f.read()
+    return data
 
-#for key,value in url_response.headers.items():
-#    print(key, ' --> ',value)
-#data = url_response.text
-#data_tagged = BeautifulSoup(data,'html.parser')
-#data_list = data_tagged.find_all()
-#for tag in data_tagged:
-#    print(tag)
+# filename='D:\_gfot\PyCharmProjects\web_scraping\intro-to-soup-html.html'
+#
+# my_data = read_file(filename)
+# soup = BeautifulSoup(my_data,'lxml')
+# print(soup)
 
-'''
-url = "http://cisco.com/"
+
+url = 'http://www.euroleague.net/competition/players/showplayer?pcode=JUO&seasoncode=E2018'
 response = requests.get(url)
 data = response.text
-#print(data)
-soup = BeautifulSoup(data, 'html.parser')
-#print(soup)
-tags = soup.find_all('a')
-#print(tags)
-for tag in tags:
-    print(tag)
-#    print(tag.get('href'))
-'''
+soup = BeautifulSoup(data, 'lxml')
+# soup = BeautifulSoup(data, 'html.parser')
+print(soup)
+# tags = soup.find_all('a')
+# print(tags)
+# for tag in tags:
+#     print(tag)
+#     print(tag.get('href'))
