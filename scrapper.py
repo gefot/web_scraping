@@ -23,8 +23,10 @@ data = read_file(filename)
 
 # Parse HTML site
 soup = BeautifulSoup(data, 'lxml')
-print('-------------------------\n',soup.prettify(),'\n-------------------------\n\n\n\n')
+print('-------------------------\n',soup.prettify(),'\n-------------------------')
 
+head = soup.head
+title = soup.title
 meta = soup.meta
 # print(meta['charset'])
 
@@ -32,8 +34,15 @@ body = soup.body
 # print(body)
 # body['style'] = 'some style'
 # print(body['style'])
+children = [child for child in body.contents if child is not None]
+print(len(children))
 
-title = soup.title
+# for child in body.contents:
+#     print(child if child is not None else '',end='\n=====\n')
+#
+# for child in body.children:
+#     print(child if child is not None else '',end='\n=====\n')
+
 
 
 
