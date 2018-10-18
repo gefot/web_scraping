@@ -10,23 +10,31 @@ def read_file(filename):
 
 
 # Get HTML site and store it at 'data'
-# filename='D:\_gfot\PyCharmProjects\web_scraping\intro-to-soup-html.html'
-# data = read_file(filename)
+filename='D:\_gfot\PyCharmProjects\web_scraping\\three-sisters.html'
+data = read_file(filename)
 
 # url = 'http://www.euroleague.net/competition/players/showplayer?pcode=JUO&seasoncode=E2018'
 # url = 'https://gr.linkedin.com/in/georgios-fotiadis-5a48035'
-url = 'http://www.google.com'
-ua = UserAgent()
-header = {'user-agent':ua.chrome}
-response = requests.get(url, headers=header)
-data = response.content
-
+# url = 'http://www.google.com'
+# ua = UserAgent()
+# header = {'user-agent':ua.chrome}
+# response = requests.get(url, headers=header)
+# data = response.content
 
 # Parse HTML site
 soup = BeautifulSoup(data, 'lxml')
-# print(soup.prettify())
+print('-------------------------\n',soup.prettify(),'\n-------------------------\n\n\n\n')
+
 meta = soup.meta
-print(meta)
+# print(meta['charset'])
+
+body = soup.body
+# print(body)
+# body['style'] = 'some style'
+# print(body['style'])
+
+title = soup.title
+
 
 
 # tags = soup.find_all('a')
