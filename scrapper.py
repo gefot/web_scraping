@@ -24,6 +24,12 @@ data = read_file(filename)
 ## Parse HTML site
 soup = BeautifulSoup(data, 'lxml')
 print('-------------------------\n',soup.prettify(),'\n-------------------------')
+
+regex = re.compile('^b$')
+for tag in soup.find_all(regex):
+    print(tag.name)
+# print(soup.find_all(regex))
+
 #
 # head = soup.head
 # title = soup.title
@@ -53,6 +59,4 @@ print('-------------------------\n',soup.prettify(),'\n-------------------------
 # for child in body.children:
 #     print(child if child is not None else '',end='\n=====\n')
 
-regex = re.compile('a{2,4}')
-print(regex.match('a'))
 
