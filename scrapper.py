@@ -27,7 +27,7 @@ print('-------------------------\n',soup.prettify(),'\n-------------------------
 
 regex = re.compile('^b$')
 for tag in soup.find_all(regex):
-    print(tag.name)
+    print(tag.string)
 # print(soup.find_all(regex))
 
 #
