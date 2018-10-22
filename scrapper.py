@@ -25,9 +25,12 @@ data = read_file(filename)
 soup = BeautifulSoup(data, 'lxml')
 print('-------------------------\n',soup.prettify(),'\n-------------------------')
 
-regex = re.compile('^b$')
-for tag in soup.find_all(regex):
-    print(tag.string)
+# a_tags = soup.find_all('a')
+# print(a_tags)
+attr = {'class': 'story'}
+print(soup.find_all(attrs=attr))
+
+
 # print(soup.find_all(regex))
 
 #
