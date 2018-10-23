@@ -3,6 +3,7 @@ import requests
 from fake_useragent import UserAgent
 import re
 
+
 def get_url_data(url,ua,header):
     '''
     Returns Beautiful Soup of the requested URL
@@ -30,6 +31,7 @@ def get_player_list(soup):
 
     return url_list
 
+
 def get_player_stats(soup):
 
     stats = []
@@ -56,7 +58,6 @@ def get_player_stats(soup):
 ua = UserAgent()
 header = {'user-agent':ua.chrome}
 
-### Get names and URLs for players of specific team
 # soup = get_url_data('http://www.euroleague.net/competition/teams/showteam?clubcode=OLY&seasoncode=E2018',ua,header)
 # # print('-------------------------\n',soup.prettify(),'\n-------------------------')
 # url_list = get_player_list(soup)
