@@ -25,41 +25,39 @@ def read_file(filename):
 # filename='D:\_gfot\PyCharmProjects\web_scraping\\consumer-reports.txt'
 # data = read_file(filename)
 
+base_url = 'https://codingbat.com'
 ua = UserAgent()
 header = {'user-agent':ua.chrome}
-soup = get_url_data('https://codingbat.com/python',ua,header)
-
+soup = get_url_data(base_url+'/python',ua,header)
 # print('-------------------------\n',soup.prettify(),'\n-------------------------')
-base_url = 'https://codingbat.com'
 
 
-# Get names and URLs for Python
+# Get names and category URLs (urls = category URLs)
 all_divs = soup.find_all('div',attrs={'class':'summ'})
 urls = {}
 for div in all_divs:
     urls[div.a.string] = base_url+div.a['href']
 print(urls)
 
-# Get names and URLs for every Python category
+# Get names and question URLs (urls_2 = question URLs)
 for url in urls.values():
     print('\n'+url)
     inner_soup = get_url_data(url, ua, header)
-    # print('-------------------------\n', soup.prettify(), '\n-------------------------')
     div = inner_soup.find('div',attrs={'class':'tabc'})
     urls_2 = {}
     for td in div.table.find_all('td'):
         urls_2[td.a.string] = base_url+td.a['href']
     print(urls_2)
 
-    # Get names and URLs for every Python category
+    # Get question info
     for url_2 in urls_2.values():
-        urls_3 = {}
         print('\n' + url_2)
-        # div = inner_soup_1.find('div',attrs={'class':'tabc'})
-        # for td in div.table.find_all('td'):
-        #     urls_3[td.a.string] = base_url+td.a['href']
-        # print(urls_3)
-
+        inner_soup_2 = get_url_data(url_2, ua, header)
+        div = inner_soup_2.find('div',attrs={'class':'minh'})
+        print(div)
+        # for td in div.table.find_all('p'):
+        #     print(td)
+        break
 
     break
 
