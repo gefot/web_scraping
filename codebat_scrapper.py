@@ -32,20 +32,34 @@ soup = get_url_data('https://codingbat.com/python',ua,header)
 # print('-------------------------\n',soup.prettify(),'\n-------------------------')
 base_url = 'https://codingbat.com'
 
+
+# Get names and URLs for Python
 all_divs = soup.find_all('div',attrs={'class':'summ'})
-level1_urls = {}
+urls = {}
 for div in all_divs:
-    level1_urls[div.a.string] = base_url+div.a['href']
+    urls[div.a.string] = base_url+div.a['href']
+print(urls)
 
-print(level1_urls)
-
-for url in level1_urls.values():
+# Get names and URLs for every Python category
+for url in urls.values():
     print('\n'+url)
     inner_soup = get_url_data(url, ua, header)
     # print('-------------------------\n', soup.prettify(), '\n-------------------------')
     div = inner_soup.find('div',attrs={'class':'tabc'})
+    urls_2 = {}
     for td in div.table.find_all('td'):
-        print(td)
+        urls_2[td.a.string] = base_url+td.a['href']
+    print(urls_2)
+
+    # Get names and URLs for every Python category
+    for url_2 in urls_2.values():
+        urls_3 = {}
+        print('\n' + url_2)
+        # div = inner_soup_1.find('div',attrs={'class':'tabc'})
+        # for td in div.table.find_all('td'):
+        #     urls_3[td.a.string] = base_url+td.a['href']
+        # print(urls_3)
+
 
     break
 
