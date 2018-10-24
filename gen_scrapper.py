@@ -22,7 +22,7 @@ def read_file(filename):
 ########################################################################################
 ## Get HTML site and store it at 'data'
 
-# filename='D:\_gfot\PyCharmProjects\web_scraping\\consumer-reports.txt'
+# filename=''
 # data = read_file(filename)
 
 ua = UserAgent()

@@ -22,7 +22,7 @@ def read_file(filename):
 ########################################################################################
 ## Get HTML site and store it at 'data'
 
-# filename='D:\_gfot\PyCharmProjects\web_scraping\\consumer-reports.txt'
+# filename=''
 # data = read_file(filename)
 
 base_url = 'https://codingbat.com'
@@ -30,6 +30,9 @@ ua = UserAgent()
 header = {'user-agent':ua.chrome}
 soup = get_url_data(base_url+'/python',ua,header)
 # print('-------------------------\n',soup.prettify(),'\n-------------------------')
+
+fd = open('coding_bat_data.txt','w')
+fd.write('Scrapping https://codingbat.com/python\n\n')
 
 
 # Get names and category URLs (urls = category URLs)
@@ -53,12 +56,17 @@ for url in urls.values():
     for url_2 in urls_2.values():
         print('\n' + url_2)
         inner_soup_2 = get_url_data(url_2, ua, header)
-        div = inner_soup_2.find('div',attrs={'class':'minh'})
-        print(div)
-        # for td in div.table.find_all('p'):
-        #     print(td)
+        div_2 = inner_soup_2.find('div',attrs={'class':'indent'})
+        problem_statement = div_2.table.div.string
+        print(problem_statement)
+
+        statement_siblings = div_2.table.div.next_siblings
+        examples = [sibling.string for sibling in statement_siblings if sibling.string is not None]
+        print(examples)
+
         break
 
     break
 
+fd.close()
 
