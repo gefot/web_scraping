@@ -63,6 +63,7 @@ header = {'user-agent':ua.chrome}
 # url_list = get_player_list(soup)
 # print(url_list[0])
 
+
 url_list = ['http://www.euroleague.net/competition/players/showplayer?pcode=007982&seasoncode=E2018']
 soup = get_url_data(url_list[0],ua,header)
 #print(soup.prettify())

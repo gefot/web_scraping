@@ -34,7 +34,6 @@ soup = get_url_data(base_url+'/python',ua,header)
 fd = open('codebat_data.txt','w',encoding="utf-8")
 fd.write('Scrapping https://codingbat.com/python\n\n')
 
-
 # Get names and category URLs (urls = category URLs)
 all_divs = soup.find_all('div',attrs={'class':'summ'})
 urls = {}
