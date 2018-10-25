@@ -3,71 +3,86 @@ import requests
 from fake_useragent import UserAgent
 import re
 
-
-def get_url_data(url,ua,header):
+def get_url_data(url, ua, header):
     '''
     Returns Beautiful Soup of the requested URL
     '''
     response = requests.get(url, headers=header)
     data = response.content
+
     return BeautifulSoup(data, 'lxml')
 
-
 def get_player_list(soup):
+    '''
+    Gets the soup for the team URL and returns a dictionaty {player_name:player_url}
+    '''
     regex = re.compile('competition/players/showplayer\?pcode=')
     a_tags = soup.find_all('a', href=True)
 
-    url_list = []
+    player_list = {}
     for a_tag in a_tags:
         try:
-            # print('\n\n\n',a_tag)
             url = a_tag.get('href')
-            if regex.search(url) and a_tag.get('id') == None and a_tag.string != None:
-                # print(a_tag.string)
-                full_url = 'http://www.euroleague.net' + url
-                url_list.append(full_url)
-        except:
+            if regex.search(url) and a_tag.get('id') is None and a_tag.string is not None:
+                player_list[a_tag.string] = base_url + url
+        except Exception as ex:
+            print(ex)
             pass
 
-    return url_list
-
+    return player_list
 
 def get_player_stats(soup):
 
-    stats = []
-    tr_tags = soup.find_all('tr')
-    for tr_tag in tr_tags:
-        print('\n\n\n\n\n')
-        for td_tag in tr_tag:
-            print(type(td_tag),' :',td_tag)
-            # try:
-            #     if td_tag.get('class') == 'PlayerGameNumberContainer':
-            #         print('LALALALALA')
-            # except:
-            #     pass
+    stats_table = soup.find('div', attrs={'class': 'PlayerPhasesStatisticsMainContainer'})
+    print('----------\n', stats_table.prettify(), '\n----------')
+    columns = [col.string for col in stats_table.thead.tr.find_next_sibling().find_all('th')]
+    print(columns)
 
-        # print('\n\n')
-        # print(tr_tag)
+    stats = stats_table.thead.find_next_sibling()
+    print(stats)
 
-    return stats
-
+    return stats_table
 
 
 ########################################################################################
-### Contant Variables
+### Constant Variables
 ua = UserAgent()
-header = {'user-agent':ua.chrome}
+header = {'user-agent': ua.chrome}
+global base_url
+base_url = 'https://www.euroleague.net'
 
-# soup = get_url_data('http://www.euroleague.net/competition/teams/showteam?clubcode=OLY&seasoncode=E2018',ua,header)
-# # print('-------------------------\n',soup.prettify(),'\n-------------------------')
-# url_list = get_player_list(soup)
-# print(url_list[0])
+fd = open('euroleague_data.txt', 'w', encoding="utf-8")
+fd.write('Scrapping https://www.euroleague.net\n\n')
 
+# Get teams names and URLs
+soup = get_url_data(base_url+'/?geoip=disabled', ua, header)
+# print('----------\n', soup.prettify(), '\n----------')
+teams_ul = soup.find('ul', attrs={'class': 'nav-teams nav-teams-16'})
+teams = {li.a['title']: (base_url + li.a['href']) for li in teams_ul.find_all('li') if li['class'][0] == 'item'}
+print(teams)
 
-url_list = ['http://www.euroleague.net/competition/players/showplayer?pcode=007982&seasoncode=E2018']
-soup = get_url_data(url_list[0],ua,header)
-#print(soup.prettify())
-player_stats = get_player_stats(soup)
-print(player_stats)
+# Get player names and URLs for each team
+for team, url in teams.items():
+    print(team)
+    fd.write('\n\n\n--------------------------------------------')
+    fd.write('\n---> ' + team)
+    fd.write('\n' + url + '\n')
 
+    soup_2 = get_url_data(url, ua, header)
+    player_list = get_player_list(soup_2)
+    print(player_list)
 
+    for player, player_url in player_list.items():
+        fd.write('\n-> ' + player)
+        fd.write('\n' + player_url)
+        print(player, ' ', player_url)
+
+        soup_3 = get_url_data(player_url, ua, header)
+        player_stats = get_player_stats(soup_3)
+        # print(player_stats)
+
+        break
+
+    break
+
+fd.close()
