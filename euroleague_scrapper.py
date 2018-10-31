@@ -17,13 +17,14 @@ def get_player_list(soup):
     Gets the soup for the team URL and returns a dictionaty {player_name:player_url}
     '''
     regex = re.compile('competition/players/showplayer\?pcode=')
+    regex2 = re.compile('seasoncode=E2018')
     a_tags = soup.find_all('a', href=True)
 
     player_list = {}
     for a_tag in a_tags:
         try:
             url = a_tag.get('href')
-            if regex.search(url) and a_tag.get('id') is None and a_tag.string is not None:
+            if regex.search(url) and regex2.search(url) and a_tag.get('id') is None and a_tag.string is not None:
                 player_list[a_tag.string] = base_url + url
         except Exception as ex:
             print(ex)
@@ -34,14 +35,20 @@ def get_player_list(soup):
 def get_player_stats(soup):
 
     stats_table = soup.find('div', attrs={'class': 'PlayerPhasesStatisticsMainContainer'})
-    print('----------\n', stats_table.prettify(), '\n----------')
-    columns = [col.string for col in stats_table.thead.tr.find_next_sibling().find_all('th')]
-    print(columns)
+    # print('----------\n', stats_table.prettify(), '\n----------')
+    complete_stats = []
+    stat_row = [col.string.strip() for col in stats_table.thead.tr.find_next_sibling().find_all('th')]
+    complete_stats.append(stat_row)
 
-    stats = stats_table.thead.find_next_sibling()
-    print(stats)
+    stats = stats_table.thead.find_next_siblings()
+    for stat in stats:
+        if stat.name == 'tr':
+            stat_row = [col.string.strip() if col.string is not None else '' for col in stat.find_all('td')]
+            complete_stats.append(stat_row)
 
-    return stats_table
+    print(complete_stats)
+
+    return complete_stats
 
 
 ########################################################################################
@@ -73,16 +80,16 @@ for team, url in teams.items():
     print(player_list)
 
     for player, player_url in player_list.items():
-        fd.write('\n-> ' + player)
-        fd.write('\n' + player_url)
-        print(player, ' ', player_url)
+        try:
+            fd.write('\n-> ' + player)
+            fd.write('\n' + player_url)
+            print(player, ' ', player_url)
 
-        soup_3 = get_url_data(player_url, ua, header)
-        player_stats = get_player_stats(soup_3)
-        # print(player_stats)
-
-        break
-
-    break
+            soup_3 = get_url_data(player_url, ua, header)
+            player_stats = get_player_stats(soup_3)
+            for player_stat in player_stats:
+                fd.write('\n' + '\t'.join(player_stat))
+        except:
+            pass
 
 fd.close()
