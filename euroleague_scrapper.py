@@ -68,7 +68,6 @@ teams_ul = soup.find('ul', attrs={'class': 'nav-teams nav-teams-16'})
 teams = {li.a['title']: (base_url + li.a['href']) for li in teams_ul.find_all('li') if li['class'][0] == 'item'}
 print(teams)
 
-
 # Get player names and URLs for each team
 for team, url in teams.items():
     print(team)
