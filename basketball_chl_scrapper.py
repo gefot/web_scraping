@@ -12,6 +12,7 @@ def get_url_data(url, ua, header):
 
     return BeautifulSoup(data, 'lxml')
 
+
 def get_player_list(soup):
     '''
     Gets the soup for the team URL and returns a dictionaty {player_name:player_url}
@@ -31,6 +32,7 @@ def get_player_list(soup):
             pass
 
     return player_list
+
 
 def get_player_stats(soup):
 
@@ -56,16 +58,19 @@ def get_player_stats(soup):
 ua = UserAgent()
 header = {'user-agent': ua.chrome}
 global base_url
-base_url = 'https://www.euroleague.net'
+base_url = 'http://www.championsleague.basketball'
 
-fd = open('euroleague_data.txt', 'w', encoding="utf-8")
-fd.write('Scrapping https://www.euroleague.net\n\n')
+fd = open('basketball_chl_data.txt', 'w', encoding="utf-8")
+fd.write('Scrapping http://www.championsleague.basketball/18-19/team/PAOK\n\n')
+
 
 # Get teams names and URLs
-soup = get_url_data(base_url+'/?geoip=disabled', ua, header)
+soup = get_url_data(base_url+'/18-19/', ua, header)
 # print('----------\n', soup.prettify(), '\n----------')
-teams_ul = soup.find('ul', attrs={'class': 'nav-teams nav-teams-16'})
-teams = {li.a['title']: (base_url + li.a['href']) for li in teams_ul.find_all('li') if li['class'][0] == 'item'}
+# teams_ul = soup.find('ul', attrs={'class': 'nav-teams nav-teams-16'})
+# teams = {li.a['title']: (base_url + li.a['href']) for li in teams_ul.find_all('li') if li['class'][0] == 'item'}
+
+teams = {'PAOK': 'http://www.championsleague.basketball/18-19/team/PAOK#|tab=roster'}
 print(teams)
 
 # Get player names and URLs for each team
@@ -76,9 +81,11 @@ for team, url in teams.items():
     fd.write('\n' + url + '\n')
 
     soup_2 = get_url_data(url, ua, header)
-    player_list = get_player_list(soup_2)
-    print(player_list)
+    print('----------\n', soup_2.prettify(), '\n----------')
+    # player_list = get_player_list(soup_2)
+    # print(player_list)
 
+    '''
     for player, player_url in player_list.items():
         try:
             fd.write('\n-> ' + player)
@@ -92,4 +99,5 @@ for team, url in teams.items():
         except:
             pass
 
+'''
 fd.close()
