@@ -81,7 +81,7 @@ for team, url in teams.items():
     fd.write('\n' + url + '\n')
 
     soup_2 = get_url_data(url, ua, header)
-    print('----------\n', soup_2.prettify(), '\n----------')
+    # print('----------\n', soup_2.prettify(), '\n----------')
     # player_list = get_player_list(soup_2)
     # print(player_list)
 
