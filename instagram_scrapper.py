@@ -40,12 +40,16 @@ driver.get('https://www.instagram.com/accounts/login/?source=auth_switcher')
 soup = BeautifulSoup(driver.page_source,'lxml')
 # print(soup.prettify())
 
-# Login to Instagram account
-username_textbox = driver.find_element_by_name('username')
-username_textbox.send_keys('fotgio@hotmail.com')
-password_textbox = driver.find_element_by_name('password')
-password_textbox.send_keys('xxxxx')
-username_textbox.submit()
+signup_button = driver.find_element_by_xpath("//span[@id='react-root']//p[@class='izU2O']/a")
+signup_button.click()
+
+
+## Login to Instagram account
+# username_textbox = driver.find_element_by_name('username')
+# username_textbox.send_keys('fotgio@hotmail.com')
+# password_textbox = driver.find_element_by_name('password')
+# password_textbox.send_keys('xxxxx')
+# username_textbox.submit()
 sleep(5)
 
 # # Get names and category URLs (urls = category URLs)
