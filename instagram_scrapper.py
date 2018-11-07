@@ -33,15 +33,19 @@ soup = get_url_data(base_url+'/python',ua,header)
 # print('-------------------------\n',soup.prettify(),'\n-------------------------')
 
 # fd = open('instagram_data.txt','w',encoding="utf-8")
-# fd.write('Scrapping https://codingbat.com/python\n\n')
+# fd.write('Scrapping https://www.instagram.com\n\n')
 
 driver = webdriver.Chrome('D:\_gfot\chromedriver')
 driver.get('https://www.instagram.com/accounts/login/?source=auth_switcher')
 soup = BeautifulSoup(driver.page_source,'lxml')
 # print(soup.prettify())
-# search_bar = driver.find_element_by_id('lst-ib')
-# search_bar.send_keys('I want to learn about web scraping')
-# search_bar.submit()
+
+# Login to Instagram account
+username_textbox = driver.find_element_by_name('username')
+username_textbox.send_keys('fotgio@hotmail.com')
+password_textbox = driver.find_element_by_name('password')
+password_textbox.send_keys('xxxxx')
+username_textbox.submit()
 sleep(5)
 
 # # Get names and category URLs (urls = category URLs)
