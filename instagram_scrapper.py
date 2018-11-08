@@ -47,7 +47,6 @@ class Insta_App:
 # signup_button = driver.find_element_by_xpath("//span[@id='react-root']//p[@class='izU2O']/a")
 # signup_button.click()
 
-
 if __name__ == '__main__':
     insta_app = Insta_App('fotgio@hotmail.com', 'xxxxx', 'D:\_gfot\PyCharmProjects\web_scraping\insta_data')
     insta_app.login()
