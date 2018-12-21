@@ -3,10 +3,7 @@ import requests
 from fake_useragent import UserAgent
 
 
-def get_url_data(url,ua,header):
-    '''
-    Returns Beautiful Soup of the requested URL
-    '''
+def get_url_data(url, ua, header):
     response = requests.get(url, headers=header)
     data = response.content
     return BeautifulSoup(data, 'lxml')
@@ -19,7 +16,7 @@ def read_file(filename):
 
 
 ########################################################################################
-## Get HTML site and store it at 'data'
+# Get HTML site and store it at 'data'
 
 # filename=''
 # data = read_file(filename)
@@ -27,14 +24,14 @@ def read_file(filename):
 base_url = 'https://codingbat.com'
 ua = UserAgent()
 header = {'user-agent':ua.chrome}
-soup = get_url_data(base_url+'/python',ua,header)
+soup = get_url_data(base_url+'/python', ua, header)
 # print('-------------------------\n',soup.prettify(),'\n-------------------------')
 
-fd = open('codebat_data.txt','w',encoding="utf-8")
+fd = open('codebat_data.txt', 'w', encoding="utf-8")
 fd.write('Scrapping https://codingbat.com/python\n\n')
 
 # Get names and category URLs (urls = category URLs)
-all_divs = soup.find_all('div',attrs={'class':'summ'})
+all_divs = soup.find_all('div', attrs={'class': 'summ'})
 urls = {}
 for div in all_divs:
     urls[div.a.string] = base_url+div.a['href']

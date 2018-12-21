@@ -3,19 +3,15 @@ import requests
 from fake_useragent import UserAgent
 import re
 
+
 def get_url_data(url, ua, header):
-    '''
-    Returns Beautiful Soup of the requested URL
-    '''
     response = requests.get(url, headers=header)
     data = response.content
 
     return BeautifulSoup(data, 'lxml')
 
+
 def get_player_list(soup):
-    '''
-    Gets the soup for the team URL and returns a dictionaty {player_name:player_url}
-    '''
     regex = re.compile('competition/players/showplayer\?pcode=')
     regex2 = re.compile('seasoncode=E2018')
     a_tags = soup.find_all('a', href=True)
@@ -31,6 +27,7 @@ def get_player_list(soup):
             pass
 
     return player_list
+
 
 def get_player_stats(soup):
 

@@ -5,9 +5,6 @@ import re
 
 
 def get_url_data(url,ua,header):
-    '''
-    Returns Beautiful Soup of the requested URL
-    '''
     response = requests.get(url, headers=header)
     data = response.content
     return BeautifulSoup(data, 'lxml')
@@ -20,7 +17,7 @@ def read_file(filename):
 
 
 ########################################################################################
-## Get HTML site and store it at 'data'
+# Get HTML site and store it at 'data'
 
 # filename=''
 # data = read_file(filename)
@@ -32,7 +29,7 @@ soup = get_url_data('https://codingbat.com/python',ua,header)
 # print('-------------------------\n',soup.prettify(),'\n-------------------------')
 base_url = 'https://codingbat.com'
 
-all_divs = soup.find_all('div',attrs={'class':'summ'})
+all_divs = soup.find_all('div', attrs={'class': 'summ'})
 level1_urls = {}
 for div in all_divs:
     level1_urls[div.a.string] = base_url+div.a['href']
@@ -43,7 +40,7 @@ for url in level1_urls.values():
     print('\n'+url)
     inner_soup = get_url_data(url, ua, header)
     # print('-------------------------\n', soup.prettify(), '\n-------------------------')
-    div = inner_soup.find('div',attrs={'class':'tabc'})
+    div = inner_soup.find('div', attrs={'class': 'tabc'})
     for td in div.table.find_all('td'):
         print(td)
 

@@ -8,7 +8,7 @@ class Insta_App:
         self.username = username
         self.password = password
         self.path = path
-        self.driver = webdriver.Chrome('D:\_gfot\chromedriver')
+        self.driver = webdriver.Chrome(r'D:\_gfot\chromedriver')
         self.main_url = 'https://www.instagram.com'
         # self.main_url = 'https://www.instagram.com/accounts/login/?source=auth_switcher'
         self.driver.get(self.main_url)
@@ -33,7 +33,6 @@ class Insta_App:
             self.driver.find_element_by_xpath("//button[text()='Not Now']").click()
         except:
             pass
-
 
     def select_target_profile(self, target_username):
         target_url = self.main_url + '/' + target_username

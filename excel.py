@@ -32,10 +32,9 @@ try:
 
     rows = worksheet.nrows
     for row in range(rows):
-        first_col,second_col = worksheet.row_values(row)
+        first_col, second_col = worksheet.row_values(row)
         if first_col != '':
-            print(first_col,'   ',second_col)
-
+            print(first_col, '   ', second_col)
 
 except Exception as ex:
     print(ex)
